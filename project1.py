@@ -8,7 +8,7 @@ import pyedflib
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 import networkx as nx
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 
@@ -93,14 +93,16 @@ for t in thresholds:
     adj_mat[matrix_no_diagonal>=t] = 1
     adj_mat[matrix_no_diagonal<t] = 0
     graph = nx.from_numpy_matrix(adj_mat)
-    densities.append(round(nx.density(graph),2))
+    densities.append(nx.density(graph))
 # convert list in array
 densities= np.asarray(densities)
-# find index positions of densities = 20%
-where = np.where(densities==0.20)
+# plot
+plt.plot(thresholds, densities)
+# find index position of the value that's the nearest to 0.20
+where = (np.abs(densities-0.20)).argmin()
 # select the middle index among the found ones
 # save the corresponding value of threshold
-th = thresholds[where[0][len(where[0])//2]]
+th = thresholds[where]
 # create the adjacency matrix based on the selected thresold
 adj_mat = np.zeros((k,k))
 adj_mat[matrix_no_diagonal>=th] = 1
@@ -118,5 +120,7 @@ layout = nx.drawing.layout.random_layout(G)
 # plot network                   
 nx.drawing.nx_pylab.draw_networkx(G,pos = layout,labels = labels )
 
+len(G.edges)
 
-
+# check if matrix simmetric or not
+# if directed or not
