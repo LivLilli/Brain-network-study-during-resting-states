@@ -9,8 +9,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 import networkx as nx
 import matplotlib.pyplot as plt
-
-
+import matplotlib as mpl
 
 # reading the edf file 
 f = pyedflib.EdfReader('files/S003/S003R01.edf')
@@ -82,7 +81,7 @@ matrix_no_diagonal = mean_matrix-np.triu(np.tril(mean_matrix))
 
 
 # choice of the Thrhesold s.t. 
-# the resulting binary connectivity matrices have network density equal to 20%.
+# the resulting binary connectivity matrices have network density equal to requested density.
 
 # grid
 thresholds = np.linspace(0.0, 1.0, 10000)
@@ -98,7 +97,7 @@ for t in thresholds:
 densities= np.asarray(densities)
 # plot
 plt.plot(thresholds, densities)
-# find index position of the value that's the nearest to 0.20
+# find index position of the value that's the nearest to density value
 where = (np.abs(densities-0.20)).argmin()
 # select the middle index among the found ones
 # save the corresponding value of threshold
@@ -107,20 +106,26 @@ th = thresholds[where]
 adj_mat = np.zeros((k,k))
 adj_mat[matrix_no_diagonal>=th] = 1
 adj_mat[matrix_no_diagonal<th] = 0
+# check symmetry
+# it's not symmetric, then graph is directed
+np.array_equal(np.triu(adj_mat), np.tril(adj_mat).T)
 # create nx graph object
 G = nx.from_numpy_matrix(adj_mat)
 # check number of isolates
 #nx.number_of_isolates(G)
-# create a dictionary of labels nodes
-nodes = np.arange(0,64)
-channel_names = f.getSignalLabels()
-labels = dict(zip(nodes, channel_names))
-# layout network choice
-layout = nx.drawing.layout.random_layout(G)  
-# plot network                   
-nx.drawing.nx_pylab.draw_networkx(G,pos = layout,labels = labels )
 
-len(G.edges)
+# heatmap of the binary matrix
+fig, ax = plt.subplots()
+# define the colors
+cmap = mpl.colors.ListedColormap(['k', 'c'])
+# colors boundaries
+# black is for zeros, blues for ones
+bounds = [0., 0.5, 1.]
+# colormap based on normalized limits
+# cmap.N = number of colors
+norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+# plot it
+ax.imshow(adj_mat, interpolation='none', cmap=cmap, norm=norm)
 
-# check if matrix simmetric or not
-# if directed or not
+
+
