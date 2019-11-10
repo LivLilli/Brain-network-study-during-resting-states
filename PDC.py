@@ -18,12 +18,28 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+'''
+class PDC
 
+Compute PDC estimator starting from eeg signal taken through various channels (eletrodes).
+
+Select a frequency value (alpha rythm or theta rythm)
+
+Select a threshold in order to have a given density.
+
+Compute adjacency matrix.
+
+Represent graphically the adjacency matrix.
+'''
+# PDC class takes in inputs:
+# edf file name
+# known freq range in a tuple (alpha or theta)
 class PDC(object):
     
-    def __init__(self, file_name):
+    def __init__(self, file_name, freq_range):
+        self.file_name = file_name
         # reading the edf file 
-        self.f = pyedflib.EdfReader(file_name)
+        self.f = pyedflib.EdfReader(self.file_name)
         #number of channels
         self.k = self.f.signals_in_file
         #number of samples 
@@ -31,6 +47,8 @@ class PDC(object):
         # getting Sample Frequency of a channel (for ex 0)
         # Sample freq is the same for all our channels
         self.fs = self.f.getSampleFrequency(0)
+        self.first_freq_range = freq_range[0]
+        self.second_freq_range = freq_range[1]
     
     def build_data(self):
         # creating array of data 
@@ -61,9 +79,10 @@ class PDC(object):
         pdc = cp.conn.pdc_fun(A_matrix, V_matrix, self.fs, self.fs//2)
         
         
-        # extract just the matrices kxk we need, based on alpha [8,13 HZ]
+        # extract just the matrices kxk we need, based on alpha [8,13]Hz
+        # or based on theta [4-7]Hz
         # so return 6 matrices kxk
-        freq_selection = pdc[7:13]
+        freq_selection = pdc[self.first_freq_range-1:self.second_freq_range]
         
         return freq_selection
 
@@ -79,9 +98,15 @@ class PDC(object):
         # for each i, compute the mean among the component of 6 matrices on same positions
         # add the mean value to our mean_matrix
         for i in range(0,self.k*self.k):
-            mean = (flat[i]+flat[i+self.k*self.k]+flat[i+2*self.k*self.k]+flat[i+3*self.k*self.k]+flat[i+self.k*self.k*4]+flat[i+self.k*self.k*5])/(freq_selection.shape[0])
-            mean_matrix.flat[i] = mean
-        
+            # if alpha rythm
+            if (self.second_freq_range-self.first_freq_range)==5:
+                mean = (flat[i]+flat[i+self.k*self.k]+flat[i+2*self.k*self.k]+flat[i+3*self.k*self.k]+flat[i+self.k*self.k*4]+flat[i+self.k*self.k*5])/(freq_selection.shape[0])
+                mean_matrix.flat[i] = mean
+            # elif theta rythm
+            elif (self.second_freq_range-self.first_freq_range)==3:
+                mean = (flat[i]+flat[i+self.k*self.k]+flat[i+2*self.k*self.k]+flat[i+3*self.k*self.k])/(freq_selection.shape[0])
+                mean_matrix.flat[i] = mean  
+                            
         # we are not interested in self loops
         # then delete the diagonal
         matrix_no_diagonal = mean_matrix-np.triu(np.tril(mean_matrix))
@@ -116,7 +141,7 @@ class PDC(object):
         
         return result_adj_mat
 
-    def binary_heatmap(self, density, file_name):
+    def binary_heatmap(self, density):
         adj_mat = self.adj_matrix(density)
         # heatmap of the binary matrix
         fig, ax = plt.subplots()
@@ -128,58 +153,16 @@ class PDC(object):
         # colormap based on normalized limits
         # cmap.N = number of colors
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+        #freq tuple
+        f = (self.first_freq_range, self.second_freq_range)
         # plot it
-        plt.title("File: %s " %file_name + " Density: %f " %density)
+        plt.title("Using: PDC   Rythm: %s Hz"%(f,)   +"\n File: %s " %self.file_name + " Density: %f   " %density)
         ax.imshow(adj_mat, interpolation='none', cmap=cmap, norm=norm)
 
 
 
 
-if __name__=="__main__":
-    ### TASK 1.1
-    # file name
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
-    # density 20%
-    density1 = 0.20
-    # initialize PDC class for file1
-    pdc1 = PDC(file1)
-    # heatmap file 1
-    pdc1.binary_heatmap(density1,file1)
-    # initialize PDC class for file2
-    pdc2 = PDC(file2)
-    # heatmap file 2
-    pdc2.binary_heatmap(density1,file2)
-    
-    
-    ### TASK 1.3
-    # Perform task 1.1 using thresholds yielding the following density values:
-    # 1%, 5%, 10%, 20%, 30%, 50%.
-    
-    # density 1%
-    density2 = 0.01
-    pdc1.binary_heatmap(density2,file1)
-    pdc2.binary_heatmap(density2,file2)
-    # density 5%
-    density3 = 0.05
-    pdc1.binary_heatmap(density3,file1)
-    pdc2.binary_heatmap(density3,file2)
-    # density 10%
-    density4 = 0.10
-    pdc1.binary_heatmap(density4,file1)
-    pdc2.binary_heatmap(density4,file2)
-    # density 30%
-    density5 = 0.30
-    pdc1.binary_heatmap(density5,file1)
-    pdc2.binary_heatmap(density5,file2)
-    # density 50%
-    density6 = 0.50
-    pdc1.binary_heatmap(density6,file1)
-    pdc2.binary_heatmap(density6,file2)
-  
-    
-    
-    
+
 
     
 
