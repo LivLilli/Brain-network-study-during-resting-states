@@ -130,6 +130,7 @@ class DTF(object):
         # plot it
         plt.title("Using DTF \n File: %s " %file_name + " Density: %f " %density)
         ax.imshow(adj_mat, interpolation='none', cmap=cmap, norm=norm)
+        plt.show()
 
 
 

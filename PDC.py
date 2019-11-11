@@ -143,6 +143,7 @@ class PDC(object):
         # plot it
         plt.title("Using: PDC   Rythm: %s Hz"%(f,)   +"\n File: %s " %self.file_name + " Density: %f   " %density)
         ax.imshow(adj_mat, interpolation='none', cmap=cmap, norm=norm)
+        plt.show()
 
 
 
