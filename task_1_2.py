@@ -137,18 +137,18 @@ class DTF(object):
 if __name__=="__main__":
     ### TASK 1.2
     # file name
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
+    file1 = 'data/S003R01.edf'
+    file2 = 'data/S003R02.edf'
     # density 20%
     density1 = 0.20
     # initialize PDC class for file1
     dtf1 = DTF(file1)
     # heatmap file 1
-    dtf1.binary_heatmap(density1,file1)
+    dtf1.binary_heatmap(density1, file1)
     # initialize PDC class for file2
     dtf2 = DTF(file2)
     # heatmap file 2
-    dtf2.binary_heatmap(density1,file2)
+    dtf2.binary_heatmap(density1, file2)
     
     
 

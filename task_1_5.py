@@ -199,24 +199,22 @@ class sub_PDC(object):
         nx.draw_networkx(G, pos=coord_dic_19,labels =labels_dic,node_size=500,node_color="cyan")       
         
 
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     ### TASK 1.5
     # file name
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
-    txt_file = 'channel_locations.txt'
+    file1 = 'data/S003R01.edf'
+    file2 = 'data/S003R02.edf'
+    txt_file = 'data/channel_locations.txt'
     # advised density 5%
     density1 = 0.05
     # 19 channels
-    channels_19 = ["Fp1" ,"Fp2","F7", 'F3', 'Fz','F4', 'F8', 'T7', 'C3', 'Cz', 'C4', 'T8', 'P7', 'P3', 'Pz', 'P4', 'P8', 'O1', 'O2']
+    channels_19 = {"Fp1", "Fp2", "F7", 'F3', 'Fz', 'F4', 'F8', 'T7', 'C3',
+                   'Cz', 'C4', 'T8', 'P7', 'P3', 'Pz', 'P4', 'P8', 'O1', 'O2'}
 
     # initialize PDC class for file1
     pdc1 = sub_PDC(file1, channels_19, txt_file, density1)
     # initialize PDC class for file2
     pdc2 = sub_PDC(file2,channels_19, txt_file, density1)
-    
     
     pdc1.graph()
     plt.show()

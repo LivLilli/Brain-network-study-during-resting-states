@@ -14,12 +14,12 @@ from PDC import PDC
 
 if __name__=="__main__":
     # file name
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
+    file1 = 'data/S003R01.edf'
+    file2 = 'data/S003R02.edf'
     # density 20%
     density1 = 0.20
     # theta rythm
-    theta_range = (4,7)
+    theta_range = (4, 7)
     
     pdc3 = PDC(file1, theta_range)
     pdc4 = PDC(file2, theta_range)
