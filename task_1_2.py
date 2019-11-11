@@ -80,16 +80,7 @@ class DTF(object):
         # mean among the 6 matrices
         # return a kxk matrix 
         # each component i,j is the mean among the components i,j of the 6 matrices
-        # initialize the result matrix
-        mean_matrix= np.zeros((self.k,self.k))
-        # return freq_selection array collapsed in 1 dimension
-        flat = freq_selection.flatten()
-        # for each i, compute the mean among the component of 6 matrices on same positions
-        # add the mean value to our mean_matrix
-        for i in range(0,self.k*self.k):
-            mean = (flat[i]+flat[i+self.k*self.k]+flat[i+2*self.k*self.k]+flat[i+3*self.k*self.k]+flat[i+self.k*self.k*4]+flat[i+self.k*self.k*5])/(freq_selection.shape[0])
-            mean_matrix.flat[i] = mean
-        
+        mean_matrix = np.mean(freq_selection, 0)
         # we are not interested in self loops
         # then delete the diagonal
         matrix_no_diagonal = mean_matrix-np.triu(np.tril(mean_matrix))
@@ -108,7 +99,7 @@ class DTF(object):
             adj_mat = np.zeros((self.k,self.k))
             adj_mat[matrix_no_diagonal>=t] = 1
             adj_mat[matrix_no_diagonal<t] = 0
-            graph = nx.from_numpy_matrix(adj_mat)
+            graph = nx.from_numpy_matrix(adj_mat,create_using=nx.DiGraph)
             densities.append(nx.density(graph))
         # convert list in array
         densities= np.asarray(densities)
