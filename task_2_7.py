@@ -5,6 +5,10 @@ Created on Wed Nov 13 16:33:54 2019
 
 @author: livialilli
 """
+
+'''
+ Perform point 2.1 considering the weighted version of the graph indices definitions
+'''
 from PDC import PDC
 import networkx as nx
 import pandas as pd
@@ -17,12 +21,12 @@ def task_2_7(file, density, freq):
     weighted_matrix  = pdc.final_pdc_matrix()
     # directed graph
     G = nx.from_numpy_matrix(weighted_matrix,create_using=nx.DiGraph)
-    print(G)
+
     ### GLOBAL INDECES
     # avarage clustering coefficient
-    avg_clustering_coeff = nx.average_clustering(G)
+    avg_clustering_coeff = nx.average_clustering(G,weight='weight')
     # avarage shortest path length
-    avg_shortest_path_length = nx.average_shortest_path_length(G)
+    avg_shortest_path_length = nx.average_shortest_path_length(G,weight='weight')
     
     ### LOCAL INDECES
     # degree dictionaries
@@ -31,9 +35,9 @@ def task_2_7(file, density, freq):
     degree = dict(nx.degree(G, weight='weight'))
     
     # the number of edges pointing to the node
-    in_degree = dict(G.in_degree())
+    in_degree = dict(G.in_degree(weight='weight'))
     # the number of edges pointing out of the node
-    out_degree = dict(G.out_degree())
+    out_degree = dict(G.out_degree(weight='weight'))
     
     ### LIST THE FIRST 10 CHANNELS for local indeces
     top_10_degree = []
