@@ -11,6 +11,9 @@ from task_1_2 import DTF
 
 
 '''
+????? global indeces are simply clustering and shortest path coeff for each node, or the avaraged ones ??????
+
+
 Compute binary global (clustering coefficient, path length) and local (degree,
 in/out-degree) graph indices. List the highest 10 channels for local indices.
 '''
