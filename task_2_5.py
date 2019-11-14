@@ -81,7 +81,7 @@ def task_2_5(file, density, freq):
     nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in degree.values()],node_color="cyan")       
     plt.show()
     
-    plt.title("IN-Degree Rapresentation")
+    plt.title("Using PDC \n File: %s " %file + " Density: %f \n\n" %density +"IN-Degree Rapresentation")
     nx.draw_networkx_nodes(G, pos=coord_dic, node_color='cyan')
     nx.draw_networkx_edges(G, pos=coord_dic, arrowstyle='->',
                                arrowsize=10,width=2)
@@ -89,7 +89,7 @@ def task_2_5(file, density, freq):
     nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in in_degree.values()],node_color="cyan")       
     plt.show()
     
-    plt.title("OUT-Degree Rapresentation")
+    plt.title("Using PDC \n File: %s " %file + " Density: %f \n\n" %density +"OUT-Degree Rapresentation")
     nx.draw_networkx_nodes(G, pos=coord_dic, node_color='cyan')
     nx.draw_networkx_edges(G, pos=coord_dic, arrowstyle='->',
                                arrowsize=10,width=2)

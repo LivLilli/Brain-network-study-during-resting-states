@@ -1,0 +1,6 @@
+networkx
+pandas
+matplotlib
+connectivipy
+pyedflib
+infomap

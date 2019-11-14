@@ -5,6 +5,15 @@ Created on Sun Nov 10 22:15:33 2019
 
 @author: livialilli
 """
+import matplotlib.pyplot as plt
+'''
+Estimate functional brain connectivity among 64 channels using one of the MVAR estimators: 
+Partial Directed Coherence (PDC), Direct Transfer Function (DTF). 
+Select one relevant frequency value. 
+Apply a threshold so that the resulting binary connectivity matrices have network density equal to 20%. 
+Create a graphical representation of the binary adjacency matrix.
+
+'''
 
 from PDC import PDC
 
@@ -24,3 +33,4 @@ if __name__=="__main__":
     pdc2 = PDC(file2, alpha_freq)
     # heatmap file 2
     pdc2.binary_heatmap(density1)
+    
