@@ -12,7 +12,6 @@ Represent graph with nodes dimesnion depending on their:
     * in-degree
     * out-degree
     * degree
-
 '''
 from PDC import PDC
 import networkx as nx
