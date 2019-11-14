@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import infomap
 from PDC import PDC
-
-
-
-
+'''
+Determine number and composition (i.e. list of nodes) of the communities
+obtained applying one of the algorithms introduced during the course.
+'''
 
 file1 = 'data/S003R01.edf'
 file2 = 'data/S003R02.edf'
