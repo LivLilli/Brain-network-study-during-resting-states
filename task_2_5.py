@@ -108,5 +108,3 @@ if __name__=="__main__":
     task_2_5(file1,density1,alpha_freq)
     task_2_5(file2,density1,alpha_freq)
      
-     
-     
