@@ -1,3 +1,4 @@
+community
 networkx
 pandas
 matplotlib
