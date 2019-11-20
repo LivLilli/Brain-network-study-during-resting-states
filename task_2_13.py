@@ -11,6 +11,8 @@ from task_1_2 import DTF
 
 
 '''
+TASK 2.1
+
 ????? global indeces are simply clustering and shortest path coeff for each node, or the avaraged ones ??????
 
 
@@ -67,25 +69,11 @@ def task_2_1(file, density, freq):
     print("\n")
     print('\n')
     
-    
-'''
-Search in the literature a definition of small-worldness index (i.e. an index
-describing the small-world organization of a network) and compute it.
-'''
-
-def task_2_2(file, density, freq):
-    pdc = PDC(file, freq)
-    # adjacency matrix
-    a_matrix = pdc.adj_matrix(density)
-    # undirected graph (sigma want undirected) ???
-    G = nx.from_numpy_matrix(a_matrix)
-    small_worldness_index = nx.sigma(G, niter= 10, nrand=3,seed= 5)
-    
-    print("Using PDC on file %s: "%file, "   Density: %f \n"%density)
-    print("Small-Wordlness index: ", small_worldness_index)
 
 
 '''
+TASK 2.3
+
 Compare the global indices extracted from PDC and DTF connectivity estimations.
 '''
 def task_2_3(file, density):
@@ -117,10 +105,7 @@ if __name__=="__main__":
     
     task_2_1(file1, density1, alpha_freq)
     task_2_1(file2, density1, alpha_freq)
-    '''
-    task_2_2(file1, density1, alpha_freq)
-    task_2_2(file2, density1, alpha_freq)
-    '''
+
     task_2_3(file1, density1)
     task_2_3(file2, density1)
     

@@ -35,6 +35,7 @@ def findCommunities(G):
     print("Find communities with Infomap...")
     infomapWrapper.run();
 
+
     print("Found {} modules with codelength: {}".format(infomapWrapper.numTopModules(), infomapWrapper.codelength()))
 
     print("Result")

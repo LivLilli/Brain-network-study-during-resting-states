@@ -17,7 +17,7 @@ import numpy as np
 
 def task_2_7(file, density, freq):
     pdc = PDC(file, freq)
-    # adjacency matrix
+    # weighted adjacency matrix
     weighted_matrix  = pdc.final_pdc_matrix()
     # directed graph
     G = nx.from_numpy_matrix(weighted_matrix,create_using=nx.DiGraph)

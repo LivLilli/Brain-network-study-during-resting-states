@@ -25,7 +25,7 @@ def task_4_1(file, freq):
     # dictionary: for each node the corresponding community
     # best_partition: compute the partition of the graph nodes which maximises the modularity using the Louvain heuristices
     comm_dic = dict(community.best_partition(G))
-    # communieties found
+    # communities found
     values = set(list(comm_dic.values()))
     print('Using PDC   File:%s' % file)
     print('Number of communities: ', len(values))
@@ -73,7 +73,7 @@ def task_4_2(comm, part, file, freq):
     size = len(comm)
     count = 0
     colour = [ "purple", "orange", "red", "green", "white", "black" ]
-
+    plt.title("Using PDC   File:%s \n" % file)
     for com in comm:
         count = count + 1
         list_nodes = [nodes for nodes in part.keys()
@@ -81,7 +81,7 @@ def task_4_2(comm, part, file, freq):
         nx.draw_networkx_nodes(G, pos, list_nodes, node_size = 20,
                                     node_color = colour[com])
 
-    plt.title("Using PDC   File:%s \n"%file)
+
     nx.draw_networkx_edges(G, pos, alpha=0.5)
     plt.show()
 
