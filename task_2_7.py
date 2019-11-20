@@ -68,8 +68,8 @@ def task_2_7(file, density, freq):
     
 if __name__=="__main__":
     
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
+    file1 = 'data/S003R01.edf'
+    file2 = 'data/S003R02.edf'
     density1 = 0.20
     alpha_freq = (8,13)
     

@@ -16,8 +16,8 @@ on the directed graph (see task_2_2.R)
 
 if __name__ == "__main__":
 
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
+    file1 = 'data/S003/S003R01.edf'
+    file2 = 'data/S003/S003R02.edf'
     density1 = 0.20
     alpha_freq = (8,13)
 
@@ -25,9 +25,9 @@ if __name__ == "__main__":
     # adjacency matrix
     a_matrix1 = pdc1.adj_matrix(density1)
     # delete existing file
-    os.remove("a_matrix1.csv")
+    os.remove("data/a_matrix1.csv")
     # save to csv
-    np.savetxt("matrix1.csv", a_matrix1, delimiter=",")
+    np.savetxt("data/matrix1.csv", a_matrix1, delimiter=",")
 
     pdc2 = PDC(file2, alpha_freq)
     # adjacency matrix

@@ -16,8 +16,8 @@ Compare the networks obtained with the analysis 1.6 in terms of graph indices.
 
 if __name__=="__main__":
     # file name
-    file1 = 'files/S003/S003R01.edf'
-    file2 = 'files/S003/S003R02.edf'
+    file1 = 'data/S003R01.edf'
+    file2 = 'data/S003R02.edf'
     # density 20%
     density1 = 0.20
     # theta rythm
