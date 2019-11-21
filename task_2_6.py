@@ -1,16 +1,12 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 12 12:33:03 2019
-
-@author: livialilli
-"""
-from task_2_123 import task_2_1
+from task_2_13 import task_2_1
 
 
 
 '''
+TASK 2.6
+
 Compare the networks obtained with the analysis 1.6 in terms of graph indices.
+(the choice of this task is advised only in the case of selection of task 1.6).
 '''
 
 

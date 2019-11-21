@@ -1,15 +1,12 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Nov 10 22:17:06 2019
-
-@author: livialilli
-"""
+# import class
 from PDC import PDC
+'''
+TASK 1.6
 
-### TASK 1.6
-# Perform task 1.1 considering a second frequency value 
-# belonging to a different EEG rhythm with respect to the first choice
+Perform task 1.1 considering a second frequency value 
+belonging to a different EEG rhythm with respect to the first choice
+
+'''
 
 
 if __name__=="__main__":

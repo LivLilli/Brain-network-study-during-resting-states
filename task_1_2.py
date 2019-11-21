@@ -1,23 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Nov 10 13:00:30 2019
 
-@author: livialilli
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov  8 21:31:34 2019
-
-@author: livialilli
-"""
 # import libraries
 import numpy as np
-#import mne
-#import pandas as pd
-#import os
 import connectivipy as cp
 import pyedflib
 import warnings
@@ -27,9 +10,30 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 
+
+
+
+'''
+class DTF
+
+Compute DTF estimator starting from eeg signal taken through various channels (eletrodes).
+
+Select a frequency value (alpha rythm or theta rythm)
+
+Select a threshold in order to have a given density.
+
+Compute adjacency matrix.
+
+Represent graphically the adjacency matrix.
+'''
+
 class DTF(object):
     
     def __init__(self, file_name):
+        '''
+                - file_name: edf file name string;
+        '''
+
         # reading the edf file 
         self.f = pyedflib.EdfReader(file_name)
         #number of channels
@@ -41,9 +45,13 @@ class DTF(object):
         self.fs = self.f.getSampleFrequency(0)
     
     def build_data(self):
-        # creating array of data 
-        # rows must be channels
-        # cols must be data points
+
+        '''
+        Returns:
+            an array of data:
+            rows must be channels and cols must be data points.
+        '''
+
         data = np.zeros((self.k, self.N))
         for i in np.arange(self.k):
             data[i, :] = self.f.readSignal(i)
@@ -51,6 +59,15 @@ class DTF(object):
         return data
         
     def MVar_DTF(self):
+
+        '''
+        Fits Multivariate model on our data.
+        Computes the DTF estimator.
+
+        Returns:
+            an array with inside as many matrices as the frequency range dimension.
+        '''
+
         data = self.build_data()
         # MVar model fitting on data
         # data is an array of dimension kN (k = number of channels, N = number of data points)
@@ -76,6 +93,12 @@ class DTF(object):
         return freq_selection
 
     def final_dtf_matrix(self):
+
+        '''
+        Returns:
+            final dtf matrix, without diagonal (no self-loops).
+        '''
+
         freq_selection = self.MVar_DTF()
         # mean among the 6 matrices
         # return a kxk matrix 
@@ -88,6 +111,12 @@ class DTF(object):
     
     
     def adj_matrix(self, density):
+
+        '''
+        Returns:
+            The adjacency matrix obtained by applying the threshold (s.t density = 20%) on dtf matrix.
+        '''
+
         matrix_no_diagonal = self.final_dtf_matrix()
         # choice of the Thrhesold s.t. 
         # the resulting binary connectivity matrices have network density equal to requested density.
@@ -116,6 +145,12 @@ class DTF(object):
         return result_adj_mat
 
     def binary_heatmap(self, density, file_name):
+
+        '''
+         Returns:
+             binary heatmap of adjacency matrix.
+         '''
+
         adj_mat = self.adj_matrix(density)
         # heatmap of the binary matrix
         fig, ax = plt.subplots()
@@ -133,7 +168,11 @@ class DTF(object):
         plt.show()
 
 
+'''
+TASK 1.2
 
+Perform task 1.1 using both estimators (PDC and DTF).
+'''
 
 if __name__=="__main__":
     ### TASK 1.2

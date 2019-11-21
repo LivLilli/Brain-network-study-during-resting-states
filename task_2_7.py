@@ -1,19 +1,38 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 13 16:33:54 2019
-
-@author: livialilli
-"""
-
-'''
- Perform point 2.1 considering the weighted version of the graph indices definitions
-'''
 from PDC import PDC
 import networkx as nx
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
+
+
+'''
+TASK 2.7
+
+ Perform point 2.1 considering the weighted version of the graph indices definitions
+
+------------------------------------------------
+
+task_2_7(file, density, freq)
+
+Takes in input:
+
+    - edf file name;
+    
+    - density value;
+    
+    - frequency range (rythm).
+    
+Returns:
+
+    - Avg Clustering Coefficient;
+    
+    - Avg Shortest Path Coefficient;
+    
+    - Top 10 channels in terms of degree;
+    
+    - Top 10 channels in terms of in-degree;
+    
+    - Top 10 channels in terms of out-degree.
+'''
+
+
 
 def task_2_7(file, density, freq):
     pdc = PDC(file, freq)

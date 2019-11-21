@@ -22,3 +22,7 @@ graph_2 = graph_from_adjacency_matrix(matrix_2,mode = "directed")
 
 sw_2 = smallworldness(graph_2)
 
+
+'print("The Small Worldness of S003R01.edf file is",sw_1)
+print("The Small Worldness of S003R02.edf file is",sw_2)'
+

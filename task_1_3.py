@@ -1,16 +1,12 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Nov 10 22:19:25 2019
-
-@author: livialilli
-"""
-
+# import class
 from PDC import PDC
+'''
+TASK 1.3
 
-### TASK 1.3
-# Perform task 1.1 using thresholds yielding the following density values:
-# 1%, 5%, 10%, 20%, 30%, 50%.
+Perform task 1.1 using thresholds yielding the following density values:
+
+1%, 5%, 10%, 20%, 30%, 50%.
+'''
 
 if __name__=="__main__":
     ### TASK 1.1

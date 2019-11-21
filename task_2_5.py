@@ -1,25 +1,23 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 13 15:17:47 2019
-
-@author: livialilli
-"""
-'''
-Make a topographical representation of local indices.
-
-Represent graph with nodes dimesnion depending on their:
-    * in-degree
-    * out-degree
-    * degree
-'''
 from PDC import PDC
 import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-plt.rcParams["figure.figsize"] = (14,14)
+plt.rcParams["figure.figsize"] = (10,8)
 
+'''
+open_file_txt(file)
+
+Function takes in input:
+
+    - file txt name
+    
+Returns:
+
+    - dictionary of coordinates (for each node, tuple of coord)
+    
+    - list of nodes labels
+'''
 
 def open_file_txt(file):
     # delimiter: multiple spaces
@@ -45,6 +43,26 @@ def open_file_txt(file):
     coord_dic = dict(zip(indexes, coord_list))    
     
     return coord_dic, labels_list
+
+'''
+task_2_5(file, density, freq)
+
+Function takes in input:
+
+    - edf file name
+    
+    - density value
+    
+    - frequency range (rythm)
+    
+Returns:
+
+    - network representation degree based;
+    
+    - network representation in-degree based;
+    
+    - network representation degree out-based.
+'''
 
 
 def task_2_5(file, density, freq):
@@ -74,28 +92,36 @@ def task_2_5(file, density, freq):
     
     
     plt.title("Using PDC \n File: %s " %file + " Density: %f \n\n" %density + "Degree Rapresentation")
-    nx.draw_networkx_nodes(G, pos=coord_dic, node_color='cyan')
+    nx.draw_networkx_nodes(G, pos=coord_dic, node_color='magenta')
     nx.draw_networkx_edges(G, pos=coord_dic, arrowstyle='->',
                                arrowsize=10,width=2)
 
-    nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in degree.values()],node_color="cyan")       
+    nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in degree.values()],node_color="magenta")
     plt.show()
     
     plt.title("Using PDC \n File: %s " %file + " Density: %f \n\n" %density +"IN-Degree Rapresentation")
-    nx.draw_networkx_nodes(G, pos=coord_dic, node_color='cyan')
+    nx.draw_networkx_nodes(G, pos=coord_dic, node_color='orange')
     nx.draw_networkx_edges(G, pos=coord_dic, arrowstyle='->',
                                arrowsize=10,width=2)
 
-    nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in in_degree.values()],node_color="cyan")       
+    nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in in_degree.values()],node_color="orange")
     plt.show()
     
     plt.title("Using PDC \n File: %s " %file + " Density: %f \n\n" %density +"OUT-Degree Rapresentation")
-    nx.draw_networkx_nodes(G, pos=coord_dic, node_color='cyan')
+    nx.draw_networkx_nodes(G, pos=coord_dic, node_color='palegreen')
     nx.draw_networkx_edges(G, pos=coord_dic, arrowstyle='->',
                                arrowsize=10,width=2)
 
-    nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in out_degree.values()],node_color="cyan")       
+    nx.draw_networkx(G, pos=coord_dic,labels =labels_dic,nodelist = list(labels_dic.keys()),node_size=[v * 100 for v in out_degree.values()],node_color="palegreen")
     plt.show()
+
+
+'''
+TASK 2.5
+
+Make a topographical representation of local indices.
+
+'''
 
 
 if __name__=="__main__":

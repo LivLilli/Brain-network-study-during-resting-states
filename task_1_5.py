@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # import libraries
 import numpy as np
 import connectivipy as cp
@@ -12,24 +10,27 @@ import pandas as pd
 # Filter out warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+
 '''
-sub_PDC() class 
+SubPDC()
 
 Compute PDC on just a subset of channels.
 
 Make a graphical representation of the network, using given Cartesian coordinates
-
 '''
 
 
-# class takes in inputs:
-# .edf file name
-# list of channels subset (in our task they are 19)
-# .txt file name
-# density
 class SubPDC(object):
 
     def __init__(self, file_edf_name, subset_channel, file_txt_name, density):
+
+        '''
+            - file_edf_name: edf file name string
+            - subset_channel: list of channels to consider
+            - file_txt_name: txt file name string of coordinates
+            - density: density value
+        '''
+
         self.edf_file = file_edf_name
         # reading the edf file 
         self.f = pyedflib.EdfReader(self.edf_file)
@@ -47,9 +48,13 @@ class SubPDC(object):
         self.density = density
 
     def build_data(self):
-        # creating array of data 
-        # rows must be channels
-        # cols must be data points
+
+        '''
+        Returns:
+            array of data:
+            rows must be channels and cols must be data points
+        '''
+
         data = np.zeros((self.k, self.N))
         for i in np.arange(self.k):
             data[i, :] = self.f.readSignal(i)
@@ -57,6 +62,15 @@ class SubPDC(object):
         return data
 
     def sub_data(self):
+
+        '''
+        Returns:
+
+             - array of data of the channels subset considered
+
+             - list of positional indeces of subset channels inside the list of all channels
+        '''
+
         data = self.build_data()
         # initialize empty list of 19 channels indeces
         indeces_19 = []
@@ -77,6 +91,18 @@ class SubPDC(object):
         return data_19, indeces_19
 
     def mvar_dpc(self):
+
+        '''
+        Fits Multivarite mndoel on our data.
+        Computes the PDC estimator.
+
+        Returns:
+
+            - an array with inside as many matrices as the frequency range dimension.
+
+            - list of channels indeces
+        '''
+
         data, idx = self.sub_data()
         # MVar model fitting on data
         # data is an array of dimension kN (k = number of channels, N = number of data points)
@@ -101,6 +127,15 @@ class SubPDC(object):
         return freq_selection, idx
 
     def final_pdc_matrix(self):
+
+        '''
+        Returns:
+
+             - final pdc matrix, without diagonal (no self-loops).
+
+             - list of channels indeces.
+        '''
+
         freq_selection,idx = self.mvar_dpc()
         # mean among the 6 matrices
         # return a kxk matrix 
@@ -113,6 +148,15 @@ class SubPDC(object):
         return matrix_no_diagonal,idx
 
     def adj_matrix(self):
+
+        '''
+        Returns:
+
+            - The adjacency matrix obtained by applying the threshold (s.t density = 20%) on pdc matrix.
+
+            - list of channels indeces.
+        '''
+
         matrix_no_diagonal,idx = self.final_pdc_matrix()
         # choice of the Thrhesold s.t. 
         # the resulting binary connectivity matrices have network density equal to requested density.
@@ -141,6 +185,12 @@ class SubPDC(object):
         return result_adj_mat,idx
 
     def open_file_txt(self):
+
+        '''
+        Returns:
+             dictionary of coordinates (for each node, a tuple)
+        '''
+
         # delimiter: multiple spaces
         table=pd.read_csv(self.txt_name, delimiter='\s+')
         # list of x coord
@@ -160,6 +210,12 @@ class SubPDC(object):
         return coord_dic
 
     def graph(self):
+
+        '''
+         Returns:
+              network representation, with nodes positions defined by coordinates dictionary
+         '''
+
         # dict of coordinates
         coord_dic = self.open_file_txt()
         # adj matrix and positional indeces of 19 channels 
@@ -189,6 +245,19 @@ class SubPDC(object):
 
         nx.draw_networkx(G, pos=coord_dic_19, labels=labels_dic, node_size=500, node_color="cyan")
 
+
+
+'''
+TASK 1.5 
+
+Make a topographical representation of the networks (see example in Figure 2). 
+
+Cartesian coordinates of planar representation of EEG channels are available in Table 3 (see
+also the file channel_locations.txt). 
+
+(the choice of this task is advised in the case of 19-channel networks and/or density≤5%).
+sub_PDC() class 
+'''
 
 if __name__ == "__main__":
     ### TASK 1.5

@@ -1,23 +1,32 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 12 11:50:00 2019
-
-@author: livialilli
-"""
-#from DTF import DTF
 from PDC import PDC
 import networkx as nx
-from task_2_123 import task_2_3
+
 
 '''
+TASK 2.4
+
 Study the behaviour of global graph indices in function of network density (see
 point 2.3 for density values).
+the choice of this task is advised in the case of selection of task 1.3).                                                                        
 
-Using both PDC and DTF                                                                            
+---------------------
+
+task_2_4(file, density, freq)
+
+Takes in input:
+
+    - edf file name;
+
+    - density value;
+    
+    - frequency range (rythm).
+    
+Returns:
+
+    - Avg Clustering Coefficient;
+    
+    - Avg Shortest Path.
 '''
-
-
 
 def task_2_4(file, density, freq):
     pdc = PDC(file, freq)
@@ -38,6 +47,8 @@ def task_2_4(file, density, freq):
     print("The avarage shortest path length is: ", avg_shortest_path_length)
     print('\n')    
 
+
+
 if __name__=="__main__":
     ### TASK 1.1
     # file name
@@ -54,27 +65,21 @@ if __name__=="__main__":
     # using PDC
     task_2_4(file1, density1, alpha_freq)
     task_2_4(file2, density1, alpha_freq)
-    # using DTF
-    task_2_3(file1, density1)
-    task_2_3(file2, density1)
+
     
     
     ### density 30%
     density2 = 0.30
     # using PDC
-    task_2_4(file1, density1, alpha_freq)
-    task_2_4(file2, density1, alpha_freq)
-    # using DTF
-    task_2_3(file1, density2)
-    task_2_3(file2, density2)
+    task_2_4(file1, density2, alpha_freq)
+    task_2_4(file2, density2, alpha_freq)
+
     
     
     ### density 50%
     density3 = 0.50
     task_2_4(file1, density3, alpha_freq)
     task_2_4(file2, density3, alpha_freq)
-    # using DTF
-    task_2_3(file1, density3)
-    task_2_3(file2, density3)
+
 
     

@@ -10,10 +10,11 @@ TASK 4.1
 
 Determine number and composition (i.e. list of nodes) of the communities
 obtained applying one of the algorithms introduced during the course.
-'''
+
+---------------------------------------------
 
 
-'''
+
 task_4_1(file, freq, density)
 
 It takes in inputs:
@@ -33,6 +34,8 @@ Returns:
     
     * list of community names, without duplicates.
 '''
+
+
 def task_4_1(file, freq, density) :
     pdc = PDC(file, freq)
     matrix = pdc.adj_matrix(density)
@@ -66,9 +69,11 @@ def task_4_1(file, freq, density) :
 TASK 4.2
 
 Make a graphical representation of the community structure in both rest conditions.
-'''
 
-'''
+
+-----------------------------------
+
+
 open_file_txt(file)
 
 Takes in input the txt file name.
@@ -80,8 +85,9 @@ Returns:
     * dictionary of coordinates (for each node, tuple of coords);
     
     * dictionary of labels (for each node, corresponding channel name).
-
 '''
+
+
 def open_file_txt(file) :
     # delimiter: multiple spaces
     table = pd.read_csv(file, delimiter='\s+')
@@ -140,7 +146,9 @@ def task_4_2(set_comm, dic_part, file, freq) :
                                node_color=colour[com])
 
     nx.draw_networkx_edges(G, pos, alpha=0.5)
+
     plt.show()
+
 
 if __name__=="__main__":
 
