@@ -2,21 +2,32 @@ from PDC import PDC
 import networkx as nx
 import csv
 
-eeg_file = 'data/S003R01.edf'
-
 alpha_freq = (8, 13)
 density = 0.10
 
+eeg_file = 'data/S003R01.edf'
 pdc = PDC(eeg_file, alpha_freq)
 adj_matrix = pdc.adj_matrix(density)
 G = nx.from_numpy_matrix(adj_matrix, create_using=nx.DiGraph)
 
-with open('data/network_R01_mfinder_dens10.tsv', 'wt') as out_file:
+with open('data/network_R01_mfinder_dens10_2.tsv', 'wt') as out_file:
     tsv_writer = csv.writer(out_file, delimiter='\t')
     for v1, v2 in G.edges:
         # Third element set to 1 because the package will ignore different values
         tsv_writer.writerow([v1, v2, '1'])
 
+eeg_file2 = 'data/S003R02.edf'
+pdc = PDC(eeg_file2, alpha_freq)
+adj_matrix = pdc.adj_matrix(density)
+G = nx.from_numpy_matrix(adj_matrix, create_using=nx.DiGraph)
+
+with open('data/network_R02_mfinder_dens10_2.tsv', 'wt') as out_file:
+    tsv_writer = csv.writer(out_file, delimiter='\t')
+    for v1, v2 in G.edges:
+        # Third element set to 1 because the package will ignore different values
+        tsv_writer.writerow([v1, v2, '1'])
+
+# The analysis will be made
 # The analysis performed with mfinder can be found in data/network_motif_20000.txt
 # Command to launch in the prompt:
 # mfinder1.2.exe network_for_mfinder.tsv -s 3 -r 20000 -f network_motif_20000.txt

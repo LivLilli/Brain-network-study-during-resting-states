@@ -5,14 +5,21 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import warnings
+import matplotlib.cbook
 
-eeg1_file = 'data/S003R01.edf'
+warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
+
+# Indicate EEG number, either R01 o R02
+filenum = 'R02'
+eeg_file = 'data/S003'+filenum+'.edf'
 alpha_freq = (8, 13)
 density = 0.10
 
-pdc = PDC(eeg1_file, alpha_freq)
+pdc = PDC(eeg_file, alpha_freq)
 adj_matrix = pdc.adj_matrix(density)
 G = nx.from_numpy_matrix(adj_matrix, create_using=nx.DiGraph)
+
 
 # Instantiate new graph with same nodes as the original one
 G_motif = nx.DiGraph()
@@ -21,7 +28,7 @@ G_motif.add_nodes_from(G.nodes)
 # Open mfinder analysis for the particular A->B<-C motif and instantiate the incident graph
 # We've used the flag osmem to get subgraph of the specific motif (id 36)
 duplicates = 0
-with open('network_motif_rand500_R01_dens10_ospmem_MEMBERS.tsv') as motif_file:
+with open('data/network_'+filenum+'_mfinder_dens10_id36_MEMBERS.txt') as motif_file:
     csv_reader = csv.reader(motif_file, delimiter='\t')
     for v1, v2, v3 in csv_reader:
         v1 = int(v1)
@@ -59,10 +66,11 @@ channel_names = labels_list
 labels_dic = dict(zip(nodes, channel_names))
 
 plt.figure(num=None, figsize=(20, 16), dpi=160, facecolor='w', edgecolor='k')
-plt.title("Connection involving A->B<-C motif")
+plt.title(r'Connection involving $A \rightarrow B \leftarrow C$ motif in file $S003'+filenum+'.edf$', fontsize='x-large')
 nx.draw_networkx_nodes(G_motif, pos=coord_dic)
 nx.draw_networkx_edges(G_motif, pos=coord_dic, arrowstyle='->', width=0.5)
 nx.draw_networkx(G_motif, pos=coord_dic, labels=labels_dic, nodelist=list(labels_dic.keys()), node_size=750)
+plt.savefig('data/'+filenum+'_motif_id36.png')
 plt.show()
 
 # Task 3.3
@@ -71,6 +79,8 @@ plt.show()
 
 # For each motif determine whether node Po4 (58) is involved or not
 motif_graphs = {}
+# Change folder
+os.chdir('data/subgraph_motif/'+filenum)
 for motif_file_path in os.listdir(os.getcwd()):
     with open(motif_file_path) as motif_file:
         G_motif_spec = nx.DiGraph()
@@ -93,7 +103,7 @@ for file_motif, graph in motif_graphs.items():
     if graph.in_edges(po4_num) or graph.edges(po4_num):
         po4_involve.append(file_motif)
 
-print("List of all 3-nodes motif in which node Po4 is involved, the motif could be recover from the id:")
+print("Regardug "+filenum+" List of all 3-nodes motif in which node Po4 is involved, the motif could be recover from the id:")
 print(po4_involve)
 print("Number of motifs in wich Po4 is involved")
 print(len(po4_involve))
