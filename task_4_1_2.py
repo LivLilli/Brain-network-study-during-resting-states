@@ -5,6 +5,7 @@ import networkx as nx
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 '''
 TASK 4.1
 
@@ -12,67 +13,6 @@ Determine number and composition (i.e. list of nodes) of the communities
 obtained applying one of the algorithms introduced during the course.
 
 ---------------------------------------------
-
-
-
-task_4_1(file, freq, density)
-
-It takes in inputs:
-
-    * edf file name;
-    
-    * frequency range;
-    
-    * density value.
-    
-It applies the Louvain Algo to Directed Graph.
-
-
-Returns:
-
-    * a dictionary (for each node, the corresponding community);
-    
-    * list of community names, without duplicates.
-'''
-
-
-def task_4_1(file, freq, density) :
-    pdc = PDC(file, freq)
-    matrix = pdc.adj_matrix(density)
-    G = ig.Graph.Adjacency(list(matrix), mode="directed")
-    part = louvain.find_partition(G, louvain.ModularityVertexPartition)
-
-    keys = list(range(0, len(part)))
-    # values = list of list
-    # each i-sublist has nodes i-community
-    values = []
-    for i in range(len(keys)) :
-        values.append(part[i])
-
-    # list of keys of our future dictionary
-    ll = []
-    for key in keys :
-        for i in range(len(values[key])) :
-            # list of zeros
-            ll.append(key)
-    # list of all the values of future dictionary
-    vv = []
-    for i in range(len(values)):
-        vv += values[i]
-    # dictionary
-    communities_dic = dict(zip(vv, ll))
-
-    return communities_dic, keys
-
-
-'''
-TASK 4.2
-
-Make a graphical representation of the community structure in both rest conditions.
-
-
------------------------------------
-
 
 open_file_txt(file)
 
@@ -83,10 +23,9 @@ It extract coordinates values from given txt file.
 Returns:
 
     * dictionary of coordinates (for each node, tuple of coords);
-    
+
     * dictionary of labels (for each node, corresponding channel name).
 '''
-
 
 def open_file_txt(file) :
     # delimiter: multiple spaces
@@ -115,6 +54,70 @@ def open_file_txt(file) :
     labels_dic = dict(zip(nodes, labels_list))
 
     return coord_dic, labels_dic
+
+
+'''
+task_4_1(file, freq, density)
+
+It takes in inputs:
+
+    * edf file name;
+
+    * frequency range;
+
+    * density value.
+
+It applies the Louvain Algo to Directed Graph.
+
+
+Returns:
+
+    * a dictionary (for each node, the corresponding community);
+
+    * list of community names, without duplicates.
+'''
+
+def task_4_1(file, freq, density) :
+    pdc = PDC(file, freq)
+    matrix = pdc.adj_matrix(density)
+    G = ig.Graph.Adjacency(list(matrix), mode="directed")
+    part = louvain.find_partition(G, louvain.ModularityVertexPartition)
+
+    keys = list(range(0, len(part)))
+    # values = list of list
+    # each i-sublist has nodes i-community
+    values = []
+    for i in range(len(keys)) :
+        values.append(part[i])
+
+    # list of keys of our future dictionary
+    ll = []
+    for key in keys :
+        for i in range(len(values[key])) :
+            # list of zeros
+            ll.append(key)
+    # list of all the values of future dictionary
+    vv = []
+    for i in range(len(values)):
+        vv += values[i]
+    # list of labels
+    coord_dic, labels_dic =  open_file_txt('data/channel_locations.txt')
+    labels = list(labels_dic.values())
+
+    # dictionary
+    communities_dic = dict(zip(labels, ll))
+
+    comm_dic_draw = dict(zip([x for x in range(len(labels))], ll))
+
+    return communities_dic,comm_dic_draw, keys
+
+
+'''
+TASK 4.2
+
+Make a graphical representation of the community structure in both rest conditions.
+'''
+
 '''
 task_4_2(set_comm, dic_part, file, freq)
 
@@ -159,11 +162,18 @@ if __name__=="__main__":
 
     ### task 4.1
 
-    dic_part_1, set_comm_1= task_4_1(file1, alpha_freq, density)
-    dic_part_2, set_comm_2 = task_4_1(file2, alpha_freq, density)
+    dic_part_1, comm_dic_draw_1,set_comm_1= task_4_1(file1, alpha_freq, density)
+    dic_part_2, comm_dic_draw_2,set_comm_2 = task_4_1(file2, alpha_freq, density)
 
-
+    part_df_1 = pd.DataFrame.from_dict(dic_part_1, orient='index', columns=['File 1 Community'])
+    part_df_2 = pd.DataFrame.from_dict(dic_part_2,orient='index', columns=['File 1 Community'])
+    final_df = pd.concat([part_df_1, part_df_2], axis = 1)
+    try:
+        os.remove('results/task_4_1.csv')
+        final_df.to_csv('results/task_4_1.csv')
+    except:
+        final_df.to_csv('results/task_4_1.csv')
 
     ### task 4.2
-    task_4_2(set_comm_1,dic_part_1,file1,alpha_freq)
-    task_4_2(set_comm_2,dic_part_2,file2,alpha_freq)
+    task_4_2(set_comm_1,comm_dic_draw_1,file1,alpha_freq)
+    task_4_2(set_comm_2,comm_dic_draw_2,file2,alpha_freq)

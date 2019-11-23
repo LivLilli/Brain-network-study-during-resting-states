@@ -3,8 +3,8 @@ import infomap
 from PDC import PDC
 from task_4_1_2 import open_file_txt
 import matplotlib.pyplot as plt
-
-
+import os
+import pandas as pd
 '''
 TASK 4.3
 
@@ -25,7 +25,7 @@ Returns
 '''
 
 
-def findCommunities(G):
+def findCommunities(G,f):
 
     infomapWrapper = infomap.Infomap("--directed --two-level")
 
@@ -46,6 +46,19 @@ def findCommunities(G):
         if node.isLeaf():
             print("{} {}".format(node.physicalId, node.moduleIndex()))
             dic_part[node.physicalId] = node.moduleIndex()
+
+    set_comm = set(dic_part.values())
+
+    pos, labels_dic = open_file_txt("data/channel_locations.txt")
+    labeled_dic_part = dict(zip(list(labels_dic.values()),list(dic_part.values())))
+
+    part_df = pd.DataFrame.from_dict(labeled_dic_part, orient='index', columns=['Community'])
+    try:
+        os.remove('results/task_4_3_%s'%f+'.csv')
+        part_df.to_csv('results/task_4_3_%s'%f+'.csv')
+    except:
+        part_df.to_csv('results/task_4_3_%s'%f+'.csv')
+
     set_comm = set(dic_part.values())
 
     pos, labels_dic = open_file_txt("data/channel_locations.txt")
@@ -70,6 +83,8 @@ def findCommunities(G):
 if __name__=="__main__":
     file1 = 'data/S003R01.edf'
     file2 = 'data/S003R02.edf'
+    f1 = 'file1'
+    f2 = 'file2'
     # density 20%
     density1 = 0.20
     alpha_freq = (8, 13)
@@ -78,7 +93,7 @@ if __name__=="__main__":
     weighted_matrix1  = pdc1.final_pdc_matrix()
     G1 = nx.from_numpy_matrix(weighted_matrix1, create_using=nx.DiGraph)
     plt.title("Using PDC   File:%s \n" % file1)
-    findCommunities(G1)
+    findCommunities(G1,f1)
 
 
 
@@ -87,5 +102,5 @@ if __name__=="__main__":
     weighted_matrix2  = pdc2.final_pdc_matrix()
     G2= nx.from_numpy_matrix(weighted_matrix2, create_using=nx.DiGraph)
     plt.title("Using PDC   File:%s \n" % file2)
-    findCommunities(G2)
+    findCommunities(G2,f2)
 
