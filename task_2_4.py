@@ -86,8 +86,8 @@ if __name__=="__main__":
     alpha_freq = (8,13)
     f1 = 'file1'
     f2 = 'file2'
-    ### density 1% :GRAPH NOT WEAKLY CONNECTED
-    ### density 5% :GRAPH NOT WEAKLY CONNECTED
+    ### density 1% :GRAPH WEAKLY CONNECTED
+    ### density 5% :GRAPH WEAKLY CONNECTED
     
     ### density 10%
     density1 = 0.10
