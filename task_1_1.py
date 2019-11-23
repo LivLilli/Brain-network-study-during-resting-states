@@ -22,9 +22,9 @@ if __name__=="__main__":
     # initialize PDC class for file1
     pdc1 = PDC(file1, alpha_freq)
     # heatmap file 1
-    pdc1.binary_heatmap(density1)
+    pdc1.binary_heatmap(density1,'c')
     # initialize PDC class for file2
     pdc2 = PDC(file2, alpha_freq)
     # heatmap file 2
-    pdc2.binary_heatmap(density1)
+    pdc2.binary_heatmap(density1,'c')
     

@@ -21,5 +21,5 @@ if __name__=="__main__":
     pdc3 = PDC(file1, theta_range)
     pdc4 = PDC(file2, theta_range)
     
-    pdc3.binary_heatmap(density1)
-    pdc4.binary_heatmap(density1)
+    pdc3.binary_heatmap(density1, 'c')
+    pdc4.binary_heatmap(density1, 'c')

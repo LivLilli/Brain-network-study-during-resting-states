@@ -10,6 +10,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import pandas as pd
 
 '''
 class PDC
@@ -154,18 +155,27 @@ class PDC(object):
         
         return result_adj_mat
 
-    def binary_heatmap(self, density):
+    def binary_heatmap(self, density,color):
 
         '''
+        Takes in input:
+
+            - density
+
+            - color (string letter)
+
+
         Returns:
             binary heatmap of adjacency matrix.
         '''
 
+
+        # adj_matrix
         adj_mat = self.adj_matrix(density)
         # heatmap of the binary matrix
         fig, ax = plt.subplots()
         # define the colors
-        cmap = mpl.colors.ListedColormap(['k', 'c'])
+        cmap = mpl.colors.ListedColormap(['k', color])
         # colors boundaries
         # black is for zeros, blues for ones
         bounds = [0., 0.5, 1.]
