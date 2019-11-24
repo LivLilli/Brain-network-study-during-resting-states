@@ -132,10 +132,10 @@ Takes in input:
     * frequency range
 '''
 
-def task_4_2(set_comm, dic_part, file, freq) :
+def task_4_2(set_comm, dic_part, file, freq,density) :
     pdc = PDC(file, freq)
-    weighted_matrix = pdc.final_pdc_matrix()
-    G = nx.from_numpy_matrix(weighted_matrix)
+    matrix = pdc.adj_matrix(density)
+    G = nx.from_numpy_matrix(matrix, create_using=nx.DiGraph)
     pos, labels_dic = open_file_txt("data/channel_locations.txt")
     size = len(set_comm)
     count = 0
@@ -166,7 +166,7 @@ if __name__=="__main__":
     dic_part_2, comm_dic_draw_2,set_comm_2 = task_4_1(file2, alpha_freq, density)
 
     part_df_1 = pd.DataFrame.from_dict(dic_part_1, orient='index', columns=['File 1 Community'])
-    part_df_2 = pd.DataFrame.from_dict(dic_part_2,orient='index', columns=['File 1 Community'])
+    part_df_2 = pd.DataFrame.from_dict(dic_part_2,orient='index', columns=['File 2 Community'])
     final_df = pd.concat([part_df_1, part_df_2], axis = 1)
     try:
         os.remove('results/task_4_1.csv')
@@ -175,5 +175,5 @@ if __name__=="__main__":
         final_df.to_csv('results/task_4_1.csv')
 
     ### task 4.2
-    task_4_2(set_comm_1,comm_dic_draw_1,file1,alpha_freq)
-    task_4_2(set_comm_2,comm_dic_draw_2,file2,alpha_freq)
+    task_4_2(set_comm_1,comm_dic_draw_1,file1,alpha_freq,density)
+    task_4_2(set_comm_2,comm_dic_draw_2,file2,alpha_freq,density)

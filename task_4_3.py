@@ -90,17 +90,22 @@ if __name__=="__main__":
     alpha_freq = (8, 13)
 
     pdc1 = PDC(file1, alpha_freq)
-    weighted_matrix1  = pdc1.final_pdc_matrix()
-    G1 = nx.from_numpy_matrix(weighted_matrix1, create_using=nx.DiGraph)
+    pdc2 = PDC(file2, alpha_freq)
+    matrix1  = pdc1.adj_matrix(density1)
+    matrix2 = pdc2.adj_matrix(density1)
+    G1 = nx.from_numpy_matrix(matrix1, create_using=nx.DiGraph)
+    G2 = nx.from_numpy_matrix(matrix2, create_using=nx.DiGraph)
+
     plt.title("Using PDC   File:%s \n" % file1)
     findCommunities(G1,f1)
+    plt.show()
 
-
-
-
-    pdc2 = PDC(file2, alpha_freq)
-    weighted_matrix2  = pdc2.final_pdc_matrix()
-    G2= nx.from_numpy_matrix(weighted_matrix2, create_using=nx.DiGraph)
-    plt.title("Using PDC   File:%s \n" % file2)
+    plt.title("Using PDC   File:%s \n" % file1)
     findCommunities(G2,f2)
+    plt.show()
+
+
+
+
+
 
